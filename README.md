@@ -64,7 +64,8 @@ Implementation of the transmission rpc protocol in dart.
    ?method=torrent-start&ids=1,2
    ?method=session-set&speed-limit-down=50&speed-limit-down-enabled=1
    
-2.4 Transmission constructor.
+2.4.  Transmission constructor
+
   Transmission(String host, {String port, String user, String password})
   The only requiere parameter is the host direction with out "http://". In that case the lib takes the default PORT   9091 and a no user and password required. Is possible to set all parameters.
 
@@ -72,11 +73,12 @@ Implementation of the transmission rpc protocol in dart.
 
 3.1.  Torrent Action Requests
 
-   Method name          | libtransmission function | darttransmission function
-   ---------------------+--------------------------+---------------------------
-   "torrent-start"      | tr_torrentStart          | startTorrent(List<int>ids)
-   "torrent-stop"       | tr_torrentStop           | pauseTorrent(List<int>ids)
-   "torrent-verify"     | tr_torrentVerify         | verifyTorrent(List<int>ids)  
+
+   Method name          | libtransmission function | darttransmission function       
+   -------------------- | ------------------------ | --------------------------------
+   "torrent-start"      | tr_torrentStart          | startTorrent(List<int>ids)      
+   "torrent-stop"       | tr_torrentStop           | pauseTorrent(List<int>ids)      
+   "torrent-verify"     | tr_torrentVerify         | verifyTorrent(List<int>ids)     
    "torrent-reannounce" | tr_torrentManualUpdate   | reannounceTorrent(List<int>ids)  
 
    Request arguments: "ids", which specifies which torrents to use.
@@ -95,7 +97,7 @@ Implementation of the transmission rpc protocol in dart.
    Request arguments:
 
    string                            | value type & description
-   ----------------------------------+-------------------------------------------------
+   --------------------------------- | ------------------------------------------------
    "bandwidthPriority"               | number     this torrent's bandwidth tr_priority_t
    "downloadLimit"                   | number     maximum download speed (in K/s)
    "downloadLimited"                 | boolean    true if "downloadLimit" is honored
@@ -121,16 +123,16 @@ Implementation of the transmission rpc protocol in dart.
 
 3.3.  Torrent Accessors
 
-   Method name: "torrent-get". -->      darttransmission funtion
-                                    --------------------------------------------------
-                                    1.  getTorrent(List<int>ids, List<String> fields)
-                                    2.  getDowloadingTorrents(List<String> fields)
-                                    3.  getDownloadingWaitTorrents(List<String> fields)
-                                    4.  getSendingTorrents(List<String> fields)
-                                    5.  getSendingWaitTorrents(List<String> fields)
-                                    6.  getCheckingTorrents(List<String> fields)
-                                    7.  getCheckingWaitTorrents(List<String> fields)
-                                    8.  getPauseTorrents(List<String> fields)
+   Method name: "torrent-get  |           darttransmission funtion
+   -------------------------- | --------------------------------------------------
+                              |      1.  getTorrent(List<int>ids, List<String> fields)
+                              |      2.  getDowloadingTorrents(List<String> fields)
+                              |      3.  getDownloadingWaitTorrents(List<String> fields)
+                              |      4.  getSendingTorrents(List<String> fields)
+                              |      5.  getSendingWaitTorrents(List<String> fields)
+                              |      6.  getCheckingTorrents(List<String> fields)
+                              |      7.  getCheckingWaitTorrents(List<String> fields)
+                              |      8.  getPauseTorrents(List<String> fields)
                                     
 
    Request arguments:
@@ -147,7 +149,7 @@ Implementation of the transmission rpc protocol in dart.
        torrents.
 
    key                             | type                        | source 
-   --------------------------------+-----------------------------+---------
+   ------------------------------- | --------------------------- | --------
    activityDate                    | number                      | tr_stat
    addedDate                       | number                      | tr_stat
    announceResponse                | string                      | tr_stat
@@ -221,24 +223,24 @@ Implementation of the transmission rpc protocol in dart.
    webseedsSendingToUs             | number                      | tr_stat
                                    |                             |
                                    |                             |
-   -----------------------+--------+-----------------------------+
+   ---------------------- | ------ | --------------------------- | 
    files                  | array of objects, each containing:   |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- | 
                           | key                     | type       |
                           | bytesCompleted          | number     | tr_torrent
                           | length                  | number     | tr_info
                           | name                    | string     | tr_info
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    fileStats              | a file's non-constant properties.    |
                           | array of tr_info.filecount objects,  |
                           | each containing:                     |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
                           | bytesCompleted          | number     | tr_torrent
                           | wanted                  | boolean    | tr_info
                           | priority                | number     | tr_info
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    peers                  | array of objects, each containing:   |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
                           | address                 | string     | tr_peer_stat
                           | clientName              | string     | tr_peer_stat
                           | clientIsChoked          | boolean    | tr_peer_stat
@@ -253,38 +255,38 @@ Implementation of the transmission rpc protocol in dart.
                           | progress                | double     | tr_peer_stat
                           | rateToClient (B/s)      | number     | tr_peer_stat
                           | rateToPeer (B/s)        | number     | tr_peer_stat
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    peersFrom              | an object containing:                |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
                           | fromCache               | number     | tr_stat
                           | fromIncoming            | number     | tr_stat
                           | fromPex                 | number     | tr_stat
                           | fromTracker             | number     | tr_stat
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    pieces                 | A bitfield holding pieceCount flags  | tr_torrent
                           | which are set to 'true' if we have   |
                           | the piece matching that position.    |
                           | JSON doesn't allow raw binary data,  |
                           | so this is a base64-encoded string.  |
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    priorities             | an array of tr_info.filecount        | tr_info
                           | numbers. each is the tr_priority_t   |
                           | mode for the corresponding file.     |
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    trackers               | array of objects, each containing:   |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
                           | announce                | string     | tr_info
                           | scrape                  | string     | tr_info
                           | tier                    | number     | tr_info
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    wanted                 | an array of tr_info.fileCount        | tr_info
                           | 'booleans' true if the corresponding |
                           | file is to be downloaded.            |
-   -----------------------+--------------------------------------+
+   ---------------------- | ------------------------------------ |
    webseeds               | an array of strings:                 |
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
                           | webseed                 | string     | tr_info
-                          +-------------------------+------------+
+                          | ----------------------- | ---------- |
 
    Example:
 
@@ -325,16 +327,17 @@ Implementation of the transmission rpc protocol in dart.
 
 3.4.  Adding a Torrent
 
-   Method name: "torrent-add" -->      darttransmission funtion
-                                    --------------------------------------------------
-                                    1.  addTorrent(String url, [Map args])
-                                    2.  addTorrents(List<String> urls)
-                                    
+   Method name: "torrent-add" |           darttransmission funtion
+   -------------------------- | --------------------------------------------------
+                              |
+                              |      1.  addTorrent(String url, [Map args])
+                              |      2.  addTorrents(List<String> urls)
+                              |      
 
    Request arguments:
 
    key                | value type & description
-   -------------------+-------------------------------------------------
+   ------------------ | -------------------------------------------------
    "download-dir"     | string      path to download the torrent to
    "filename"         | string      filename or URL of the .torrent file
    "metainfo"         | string      base64-encoded .torrent content
@@ -355,12 +358,14 @@ Implementation of the transmission rpc protocol in dart.
 
 3.5.  Removing a Torrent
 
-   Method name: "torrent-remove" --> removeTorrent(List<int> ids, [bool deleteLocalData = false])
+   Method name: "torrent-remove" |           darttransmission funtion
+      -------------------------- | --------------------------------------------------
+                                 |   removeTorrent(List<int> ids, [bool deleteLocalData = false])
 
    Request arguments:
 
    string                     | value type & description
-   ---------------------------+-------------------------------------------------
+   -------------------------- | -------------------------------------------------
    "ids"                      | array      torrent list, as described in 3.1
    "delete-local-data"        | boolean    delete local data. (default: false)
 
@@ -374,7 +379,7 @@ Implementation of the transmission rpc protocol in dart.
    Request arguments:
 
    string                     | value type & description
-   ---------------------------+-------------------------------------------------
+   -------------------------- | -------------------------------------------------
    "ids"                      | array      torrent list, as described in 3.1
    "location"                 | string     the new torrent location
    "move"                     | boolean    if true, move from previous location.
@@ -388,7 +393,7 @@ Implementation of the transmission rpc protocol in dart.
 4.1.  Session Arguments
 
    string                     | value type & description
-   ---------------------------+-------------------------------------------------
+   -------------------------- | -------------------------------------------------
    "alt-speed-down"           | number     max global download speed (in K/s)
    "alt-speed-enabled"        | boolean    true means use the alt speeds
    "alt-speed-time-begin"     | number     when to turn on alt speeds (units: minutes after midnight)
@@ -447,23 +452,23 @@ Implementation of the transmission rpc protocol in dart.
    Response arguments:
 
    string                     | value type
-   ---------------------------+-------------------------------------------------
+   -------------------------- | -------------------------------------------------
    "activeTorrentCount"       | number
    "downloadSpeed"            | number
    "pausedTorrentCount"       | number
    "torrentCount"             | number
    "uploadSpeed"              | number
-   ---------------------------+-------------------------------+
+   -------------------------- | ----------------------------- |
    "cumulative-stats"         | object, containing:           |
-                              +------------------+------------+
+                              | ---------------- | ---------- |
                               | uploadedBytes    | number     | tr_session_stats
                               | downloadedBytes  | number     | tr_session_stats
                               | filesAdded       | number     | tr_session_stats
                               | sessionCount     | number     | tr_session_stats
                               | secondsActive    | number     | tr_session_stats
-   ---------------------------+-------------------------------+
+   -------------------------- | ----------------------------- |
    "current-stats"            | object, containing:           |
-                              +------------------+------------+
+                              | ---------------- | ---------- |
                               | uploadedBytes    | number     | tr_session_stats
                               | downloadedBytes  | number     | tr_session_stats
                               | filesAdded       | number     | tr_session_stats
@@ -485,78 +490,4 @@ Implementation of the transmission rpc protocol in dart.
    Request arguments: none
    Response arguments: a bool, "port-is-open"
 
-5.0.  Protocol Versions
-
-  The following changes have been made to the RPC interface:
-
-   RPC   | Release | Backwards |                |
-   Vers. | Version | Compat?   | Method         | Description
-   ------+---------+-----------+----------------+-------------------------------
-   1     | 1.30    | n/a       | n/a            | Initial version
-   ------+---------+-----------+----------------+-------------------------------
-   2     | 1.34    | yes       | torrent-get    | new arg "peers"
-   ------+---------+-----------+----------------+-------------------------------
-   3     | 1.41    | yes       | torrent-get    | added "port" to "peers"
-         |         | yes       | torrent-get    | new arg "downloaders"
-         |         | yes       | session-get    | new arg "version"
-         |         | yes       | torrent-remove | new method
-   ------+---------+-----------+----------------+-------------------------------
-   4     | 1.50    | yes       | session-get    | new arg "rpc-version"
-         |         | yes       | session-get    | new arg "rpc-version-minimum"
-         |         | yes       | session-stats  | added "cumulative-stats"
-         |         | yes       | session-stats  | added "current-stats"
-         |         | yes       | torrent-get    | new arg "downloadDir"
-   ------+---------+-----------+----------------+-------------------------------
-   5     | 1.60    | yes       |                | new method "torrent-reannounce"
-         |         | yes       |                | new method "blocklist-update"
-         |         | yes       |                | new method "port-test"
-         |         |           |                |
-         |         | yes       | session-get    | new arg "alt-speed-begin"
-         |         | yes       | session-get    | new arg "alt-speed-down"
-         |         | yes       | session-get    | new arg "alt-speed-enabled"
-         |         | yes       | session-get    | new arg "alt-speed-end"
-         |         | yes       | session-get    | new arg "alt-speed-time-enabled"
-         |         | yes       | session-get    | new arg "alt-speed-up"
-         |         | yes       | session-get    | new arg "blocklist-enabled"
-         |         | yes       | session-get    | new arg "blocklist-size"
-         |         | yes       | session-get    | new arg "peer-limit-per-torrent"
-         |         | yes       | session-get    | new arg "seedRatioLimit"
-         |         | yes       | session-get    | new arg "seedRatioLimited"
-         |         |        NO | session-get    | renamed "pex-allowed" to "pex-enabled"
-         |         |        NO | session-get    | renamed "port" to "peer-port"
-         |         |        NO | session-get    | renamed "peer-limit" to "peer-limit-global"
-         |         |           |                |
-         |         | yes       | torrent-add    | new arg "files-unwanted"
-         |         | yes       | torrent-add    | new arg "files-wanted"
-         |         | yes       | torrent-add    | new arg "priority-high"
-         |         | yes       | torrent-add    | new arg "priority-low"
-         |         | yes       | torrent-add    | new arg "priority-normal"
-         |         |           |                |
-         |         | yes       | torrent-set    | new arg "bandwidthPriority"
-         |         | yes       | torrent-set    | new arg "honorsSessionLimits"
-         |         | yes       | torrent-set    | new arg "seedRatioLimit" 
-         |         | yes       | torrent-set    | new arg "seedRatioLimited" 
-         |         |        NO | torrent-set    | renamed "speed-limit-down" to "downloadLimit" 
-         |         |        NO | torrent-set    | renamed "speed-limit-down-enabled" to "downloadLimited" 
-         |         |        NO | torrent-set    | renamed "speed-limit-up" to "uploadLimit" 
-         |         |        NO | torrent-set    | renamed "speed-limit-up-enabled" to "uploadLimited" 
-         |         |           |                |
-         |         | yes       | torrent-get    | new arg "bandwidthPriority"
-         |         | yes       | torrent-get    | new arg "fileStats"
-         |         | yes       | torrent-get    | new arg "honorsSessionLimits"
-         |         | yes       | torrent-get    | new arg "percentDone"
-         |         | yes       | torrent-get    | new arg "pieces"
-         |         | yes       | torrent-get    | new arg "seedRatioLimit"
-         |         | yes       | torrent-get    | new arg "seedRatioMode"
-         |         | yes       | torrent-get    | new arg "torrentFile"
-         |         | yes       | torrent-get    | new ids option "recently-active"
-         |         |        NO | torrent-get    | removed arg "downloadLimitMode"
-         |         |        NO | torrent-get    | removed arg "uploadLimitMode"
-   ------+---------+-----------+----------------+-------------------------------
-   6     | 1.70    | yes       |                | new "method torrent-set-location"
-   ------+---------+-----------+----------------+-------------------------------
-
-
-
-
-
+ 
