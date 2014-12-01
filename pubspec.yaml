@@ -1,6 +1,9 @@
-name: Transmission_RPC
+name: transmission_rcp
 version: 0.0.1
-author: Alvaro Arcas Garcia
+author: Alvaro Arcas Garcia <arcas0803@gmail.com>
 description: Implementation of the transmission rpc protocol in dart
+homepage: https://github.com/arcas0803/Transmission_RCP
 environment:
   sdk: 1.8.0
+dependencies:
+  unittest: ">=0.11.1+1 <0.12.0"
